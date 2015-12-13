@@ -3,7 +3,7 @@
 	<div ng-if="!vm.auth">Not Authorized !</div>
 	<div ng-if="vm.auth">
 		Welcome {{vm.userId}} <br/>
-		Last login on {{vm.lastLogin}} <br/>
+		Last login UTC:  {{vm.lastLogin}} <br/>
 		<button ng-click="vm.logoutUser()">Log Out</button>
 	</div>
 
