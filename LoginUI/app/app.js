@@ -4,10 +4,11 @@
 angular.module('myApp', [
   'ngRoute',
   'ngCookies',
-  'myApp.view1',
-  'myApp.view2',
+  'myApp.login',
+  'myApp.register',
+  'myApp.welcome',
   'myApp.version'
 ]).
 config(['$routeProvider', function($routeProvider) {
-  $routeProvider.otherwise({redirectTo: '/view1'});
+  $routeProvider.otherwise({redirectTo: '/login'});
 }]);

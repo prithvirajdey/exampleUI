@@ -1,0 +1,20 @@
+<div ng-controller="RegisterCtrl as vm">
+	<div>{{vm.message}}</div>
+	<div>Register new User !</div>
+	<table>
+		<tr>
+			<td>User ID</td>
+			<td>
+				<input ng-model="vm.userId">
+			</td>
+		</tr>
+		<tr>
+			<td>Password </td>
+			<td>
+				<input ng-model="vm.password">
+			</td>
+		</tr>
+	</table>
+	<button ng-click="vm.registerUser()">Register</button>
+
+</div>
