@@ -9,7 +9,7 @@ angular.module('myApp.login', ['ngRoute', 'ngCookies'])
     });
   }])
 
-  .controller('LoginCtrl', ['$cookies', '$http', function ($cookies, $http) {
+  .controller('LoginCtrl', ['$cookies', '$timeout', '$document', '$http', function ($cookies, $timeout, $document, $http) {
 
     var vm = this;
     vm.userId = "";
@@ -25,7 +25,10 @@ angular.module('myApp.login', ['ngRoute', 'ngCookies'])
       }
       // Set data and call REST service
       var userData = {};
-      $cookies.remove("last_access_t");
+      // $cookies.remove("userId");
+      // $cookies.remove("last_access_t");
+      sessionStorage.setItem("userId", null);
+      sessionStorage.setItem("last_access_t", null);
       userData.userId = vm.userId;
       userData.password = vm.password;
       return $http.post(`http://localhost:8080/LoginServices/rest/services/auth`, userData)
@@ -35,13 +38,20 @@ angular.module('myApp.login', ['ngRoute', 'ngCookies'])
             if (response.data.message == "User Authenticated") {
               // Setting authenticated user in storage
               sessionStorage.setItem("userId", vm.userId);
+              // $cookies.put("userId", vm.userId);
               
-              // In case cookie is not detected in angular
-              if ($cookies.get("last_access_t") == null || $cookies.get("last_access_t") == undefined) {
-                $cookies.put("last_access_t", response.data.lastLogin);
-              }
+              // Timeout for cookies refresh
+              $timeout(function () {
+                // In case cookie is not detected in angular
+                if ($cookies.get("last_access_t") == null || $cookies.get("last_access_t") == undefined) {
+                  // $cookies.put("last_access_t", response.data.lastLogin);
+                  sessionStorage.setItem("last_access_t", response.data.lastLogin);
+                } else {
+                  sessionStorage.setItem("last_access_t", $cookies.get("last_access_t"));
+                }
+                window.location.hash = '#/welcome';
+              }, 100);
 
-              window.location.hash = '#/welcome'
             } else {
               vm.message = response.data.message;
             }

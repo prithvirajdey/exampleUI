@@ -19,10 +19,12 @@ angular.module('myApp.welcome', ['ngRoute','ngCookies'])
   
     // Code for redirect if not authenticated  
   if(sessionStorage.getItem("userId") != null && sessionStorage.getItem("userId") != 'null'){
+  // if($cookies.get("userId") != null && $cookies.get("userId") != undefined){
     vm.auth = true;
     vm.userId = sessionStorage.getItem("userId");
-    vm.lastLogin = $cookies.get("last_access_t");
-    // $cookies.remove("last_access_t");
+    vm.lastLogin = sessionStorage.getItem("last_access_t");
+    // vm.userId = $cookies.get("userId");
+    // vm.lastLogin = $cookies.get("last_access_t");
   }
   
   vm.logoutUser = function(){
@@ -31,6 +33,7 @@ angular.module('myApp.welcome', ['ngRoute','ngCookies'])
     vm.lastLogin = "";
     vm.auth = false;
     sessionStorage.setItem("userId", null);
+    sessionStorage.setItem("last_access_t", null);
     window.location.hash = '#/login'
   }
 
